@@ -1,11 +1,11 @@
-package com.example.hw04_gymlog.Database.entities;
+package com.example.hw04_gymlog.database.entities;
 
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-import com.example.hw04_gymlog.Database.GymLogDatabase;
+import com.example.hw04_gymlog.database.GymLogDatabase;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 // Denotes that this object will be stored in a database
@@ -17,25 +17,36 @@ public class GymLog {
     private String exercise;
     private double weight;
     private int reps;
-    private LocalDate date;
+    private LocalDateTime date;
+    private int userId;
 
-    public GymLog(String exercise, double weight, int reps) {
+    public GymLog(String exercise, double weight, int reps, int userId) {
         this.exercise = exercise;
         this.weight = weight;
         this.reps = reps;
-        this.date = LocalDate.now();
+        this.userId = userId;
+        this.date = LocalDateTime.now();
+    }
+
+    @Override
+    public String toString() {
+        return  exercise + '\n' +
+                "weight: " + weight + '\n' +
+                "reps: " + reps + '\n' +
+                "date: " + date.toString() + '\n' +
+                "=-=-=-=-=-=-=\n";
     }
 
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
-        GymLog gymlog = (GymLog) o;
-        return id == gymlog.id && Double.compare(weight, gymlog.weight) == 0 && reps == gymlog.reps && Objects.equals(exercise, gymlog.exercise) && Objects.equals(date, gymlog.date);
+        GymLog gymLog = (GymLog) o;
+        return id == gymLog.id && Double.compare(weight, gymLog.weight) == 0 && reps == gymLog.reps && userId == gymLog.userId && Objects.equals(exercise, gymLog.exercise) && Objects.equals(date, gymLog.date);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, exercise, weight, reps, date);
+        return Objects.hash(id, exercise, weight, reps, date, userId);
     }
 
     public int getId() {
@@ -70,11 +81,19 @@ public class GymLog {
         this.reps = reps;
     }
 
-    public LocalDate getDate() {
+    public LocalDateTime getDate() {
         return date;
     }
 
-    public void setDate(LocalDate date) {
+    public void setDate(LocalDateTime date) {
         this.date = date;
+    }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 }

@@ -1,15 +1,15 @@
-package com.example.hw04_gymlog.Database;
+package com.example.hw04_gymlog.database;
 
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 
-import com.example.hw04_gymlog.Database.entities.GymLog;
+import com.example.hw04_gymlog.database.entities.GymLog;
 
-import java.util.ArrayList;
+import java.util.List;
 
-//Gymlog Data Access Object
+//GymLog Data Access Object
 @Dao
 public interface GymLogDAO {
     //Add records to the database
@@ -17,6 +17,6 @@ public interface GymLogDAO {
     void insert(GymLog gymLog);
 
     //Get all columns from the table
-    @Query("Select * from " + GymLogDatabase.GYM_LOG_TABLE)
-    ArrayList<GymLog> getAllRecords();
+    @Query("Select * from " + GymLogDatabase.GYM_LOG_TABLE + " ORDER BY date DESC")
+    List<GymLog> getAllRecords();
 }
