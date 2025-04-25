@@ -3,11 +3,14 @@ package com.example.hw04_gymlog.database;
 import android.app.Application;
 import android.util.Log;
 
+import androidx.lifecycle.LiveData;
+
 import com.example.hw04_gymlog.database.entities.GymLog;
 import com.example.hw04_gymlog.MainActivity;
 import com.example.hw04_gymlog.database.entities.User;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
@@ -77,5 +80,29 @@ public class GymLogRepository {
         {
             userDAO.insert(user);
         });
+    }
+
+    public LiveData<User> getUserByUserName(String username) {
+        return userDAO.getUserByUserName(username);
+    }
+
+    public LiveData<User> getUserByUserId(int userId) {
+        return userDAO.getUserByUserId(userId);
+    }
+
+    public  ArrayList<GymLog> getAllLogsByUserId(int loggedInUserId) {
+        Future<ArrayList<GymLog>> future = GymLogDatabase.databaseWriteExecutor.submit(
+                new Callable<ArrayList<GymLog>>() {
+                    @Override
+                    public ArrayList<GymLog> call() throws Exception {
+                        return (ArrayList<GymLog>) gymLogDAO.getRecordsByUserId(loggedInUserId);
+                    }
+                });
+        try {
+            return future.get();
+        } catch (InterruptedException | ExecutionException e) {
+            Log.i(MainActivity.TAG, "Problem getting all GymLogs in the repository");
+        }
+        return null;
     }
 }
