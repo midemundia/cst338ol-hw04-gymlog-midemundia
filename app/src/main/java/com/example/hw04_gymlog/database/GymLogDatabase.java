@@ -1,3 +1,9 @@
+/**
+ * Name: Matthias Idemundia
+ * Date: 04/16/2025
+ * Explanation: HW04 Gymlog Class
+ */
+
 package com.example.hw04_gymlog.database;
 
 import android.content.Context;
